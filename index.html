@@ -109,6 +109,9 @@
         .winner-announcement { background: linear-gradient(135deg, #ffd700, #ffed4e); color: #2d3748; padding: 20px; border-radius: 15px; text-align: center; font-size: 1.5rem; font-weight: bold; margin: 20px 0; box-shadow: 0 8px 16px rgba(255, 215, 0, 0.3); animation: celebration 1s ease-in-out; }
         @keyframes celebration { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center; }
+        /* Estilo para garantir que o modal de vídeo seja o primeiro a aparecer */
+        #videoModal.initial-show { display: flex; }
+
         .modal-content { background: white; padding: 30px; border-radius: 15px; max-width: 500px; width: 90%; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
         .modal h3 { color: #4a5568; margin-bottom: 20px; font-size: 1.5rem; }
         .modal p { line-height: 1.6; margin-bottom: 20px; color: #718096; }
@@ -158,10 +161,10 @@
     
     <button class="music-button" id="musicButton" onclick="toggleMusic()">🎶 Ligar Música</button>
     
-    <div class="modal" id="videoModal" style="display: flex;">
+    <div class="modal initial-show" id="videoModal">
         <div class="modal-content">
             <video id="introVideo" width="100%" height="auto" autoplay loop muted>
-                <source src="http://googleusercontent.com/file_content/1000007068.mp4" type="video/mp4">
+                <source src="http://googleusercontent.com/file_content/1000007047.mp4" type="video/mp4">
                 Seu navegador não suporta a tag de vídeo.
             </video>
             <div class="modal-buttons">
@@ -211,10 +214,10 @@
                 <div class="legend-color" style="background: linear-gradient(135deg, #4299e1, #3182ce);"></div><span>Início</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color" style="background: linear-gradient(135deg, #48bb78, #38a169);"></div><span>Verdadeiro/Falso</span>
+                <div class="legend-color" style="background: linear-gradient(135deg, #48bb78, #38a169);"></div><span>V/F Informativo</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color" style="background: linear-gradient(135deg, #ed8936, #dd6b20);"></div><span>V/F Risco (Especial)</span>
+                <div class="legend-color" style="background: linear-gradient(135deg, #ed8936, #dd6b20);"></div><span>V/F Risco (Penalidade)</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color" style="background: linear-gradient(135deg, #9f7aea, #805ad5);"></div><span>Fim</span>
@@ -226,8 +229,7 @@
             <h3 id="modalTitle">Pergunta</h3>
             <p id="modalQuestion"></p>
             <div id="modalButtons" class="modal-buttons">
-                <button class="btn btn-primary" onclick="showAnswer()">Ver Resposta</button> 
-            </div>
+                </div>
         </div>
     </div>
     <div class="modal" id="answerModal">
@@ -247,57 +249,59 @@
     <audio id="winAudio" src="http://googleusercontent.com/file_content/win.wav"></audio>
 
     <script>
-        // PERGUNTAS E RESPOSTAS DO JOGO (SOMENTE AS LISTADAS PELO USUÁRIO)
+        // PERGUNTAS V/F - INFORMATIVAS (Casas Normais)
+        // Convertidas para o formato Pergunta/Resposta Esperada/Explicação
         const perguntasInformativas = [
-            {"pergunta": "Qual o erro mais comum ao usar um preservativo masculino e como corrigi-lo?", "resposta_correta": "V", "explicacao": "O erro mais comum é não retirar o ar da ponta do preservativo antes de o desenrolar no pênis. Isso pode criar uma bolha de ar que faz com que o preservativo estoure. Basta apertar suavemente a ponta (reservatório) antes de o colocar."},
-            {"pergunta": "Por quanto tempo posso guardar um preservativo na carteira ou no porta-luvas do carro antes que ele se torne inseguro?", "resposta_correta": "F", "explicacao": "O calor e a fricção (esfregar na carteira) podem danificar o látex, tornando o preservativo ineficaz. Você deve guardá-lo num local fresco, seco e protegido (como um bolso da mochila) e verificar sempre o prazo de validade antes de usar."},
-            {"pergunta": "Para que serve o anel externo do preservativo feminino e como se usa?", "resposta_correta": "V", "explicacao": "O anel externo serve para manter o preservativo feminino no lugar fora da vagina (ou ânus), cobrindo a vulva/área externa. É também usado para guiar a inserção e a remoção."},
-            {"pergunta": "Além da camisinha masculina, quais são os outros métodos contraceptivos que funcionam como 'barreira'?", "resposta_correta": "V", "explicacao": "O preservativo feminino e o diafragma (que precisa ser usado com espermicida) são exemplos de métodos de barreira."},
-            {"pergunta": "O que é a 'pílula do dia seguinte' e deve ser usada como método contraceptivo regular?", "resposta_correta": "F", "explicacao": "É um contraceptivo de emergência que deve ser usado apenas em casos pontuais de falha ou ausência de outro método. Não deve ser usado como método contraceptivo regular, pois a sua eficácia é menor do que a pílula diária e a dose hormonal é muito elevada."},
-            {"pergunta": "Existe alguma IST que o preservativo não protege totalmente? Se sim, qual?", "resposta_correta": "V", "explicacao": "Sim. O preservativo protege as áreas que cobre, mas IST como o HPV (Vírus do Papiloma Humano) e o Herpes Genital podem ser transmitidas pelo contato com áreas da pele infectadas que não estão cobertas pelo preservativo."},
-            {"pergunta": "Mito ou Verdade: O duche vaginal após a relação sexual é um método eficaz para prevenir a gravidez e a IST.", "resposta_correta": "F", "explicacao": "Mito. O duche pode na verdade empurrar bactérias e vírus para dentro do colo do útero e desequilibra a flora vaginal, aumentando o risco de infecções."},
-            {"pergunta": "Qual é o único método contraceptivo que oferece proteção contra a maioria das Infeções Sexualmente Transmissíveis (IST)?", "resposta_correta": "V", "explicacao": "O preservativo (masculino ou feminino) é o único método que oferece dupla proteção: contra a gravidez e contra a maioria das IST."},
-            {"pergunta": "O que significa 'Consentimento Contínuo' e por que é importante?", "resposta_correta": "V", "explicacao": "Significa que o consentimento deve ser dado e confirmado em cada etapa da atividade sexual, podendo ser retirado a qualquer momento. É crucial porque o consentimento anterior não garante o atual."},
-            {"pergunta": "Qual é a diferença entre Orientação Sexual e Identidade de Gênero?", "resposta_correta": "V", "explicacao": "Orientação Sexual é a atração emocional, romântica e/ou sexual por outras pessoas. Identidade de Gênero é o sentido interno e individual de ser homem, mulher, ambos, nenhum, ou noutro gênero."},
-            {"pergunta": "Se uma pessoa não tem sintomas visíveis de IST, significa que não tem a infecção? Porquê?", "resposta_correta": "F", "explicacao": "Não. Muita IST (como Clamídia e HPV) pode ser assintomática durante muito tempo, tornando os testes e o uso de preservativo essenciais mesmo na ausência de sintomas."},
-            {"pergunta": "Na pressa, qual é o erro mais bobo que pode estragar a camisinha antes mesmo de usar?", "resposta_correta": "F", "explicacao": "Rasgar a embalagem com os dentes ou as unhas. Parece rápido, mas um microfuro invisível já anula a proteção. Dica: Sempre use os dedos para rasgar o sachê na borda serrilhada. Atenção: Guarde a camisinha em locais frescos, longe do calor (nada de porta-luvas do carro ou carteira apertada) para não danificar o material."},
-            {"pergunta": "Qual lado é o certo para desenrolar e o que fazer se colocar no lado errado?", "resposta_correta": "V", "explicacao": "O lado certo é aquele em que a borda está para fora, parecendo um pequeno chapéu. Se você tentar desenrolar e ela não descer facilmente, é porque está do lado errado. Regra de Ouro: Se começou a desenrolar do lado errado e tocou no pênis, jogue fora e pegue outra! Fluidos pré-ejaculatórios (que já podem ter IST e espermatozoides) podem ter entrado em contato com a parte de dentro."},
-            {"pergunta": "Por que é crucial apertar a pontinha (o 'bico') antes de desenrolar?", "resposta_correta": "V", "explicacao": "Aquela pontinha é o reservatório do esperma. Se não apertar para tirar o ar, o ar fica preso. Na hora da ejaculação, a pressão pode ser tanta que o preservativo estoura. O que fazer: Segure a pontinha (reservatório) com dois dedos para tirar o ar. Mantenha os dedos ali enquanto apoia a camisinha na cabeça do pênis ereto."},
-            {"pergunta": "Tenho que desenrolar até o final, até a base?", "resposta_correta": "V", "explicacao": "Sim, totalmente! A camisinha só protege se cobrir o pênis por inteiro, da cabeça até a base. É ali, na base, que a borda forma uma 'barra' que ajuda a prender o esperma. Como fazer: Depois de apertar a ponta, use o dedo que sobrou (ou a outra mão) para desenrolar a camisinha completamente até a raiz do pênis."},
-            {"pergunta": "Na hora de tirar, como garantir que não vai vazar nada?", "resposta_correta": "V", "explicacao": "Você precisa ser rápido e cuidadoso imediatamente após a ejaculação, antes que o pênis comece a ficar mole. Passo 1: Segure a borda da camisinha na base do pênis. Passo 2: Retire o pênis devagar da vagina ou do ânus. Passo 3: Retire a camisinha e jogue no lixo. (Nunca no vaso sanitário, pois entope)."},
-            {"pergunta": "Posso colocar a camisinha feminina com antecedência?", "resposta_correta": "V", "explicacao": "Sim, e essa é uma das grandes vantagens! Você pode colocar o preservativo feminino horas antes da relação sexual. Isso tira a pressão do momento e garante que a prevenção já está pronta. Como saber que está pronto: O anel maior deve estar para fora da vagina (ou ânus), cobrindo a entrada, e o anel menor deve estar bem fundo, lá dentro."},
-            {"pergunta": "O anel menor precisa ficar muito fundo? Como coloco?", "resposta_correta": "V", "explicacao": "Sim, o anel menor é quem prende a camisinha lá dentro. Você deve apertá-lo com os dedos, como se fosse um absorvente interno, e empurrá-lo o mais fundo que conseguir. Posição: Escolha a posição mais fácil: agachada, deitada ou com uma perna apoiada em algum lugar. O que é normal: É normal que o preservativo fique frouxo ou meio torcido dentro do canal. Essa folga é normal e permite que ele se ajuste."},
-            {"pergunta": "Como garantir que o pênis vai entrar dentro da camisinha e não ao lado?", "resposta_correta": "V", "explicacao": "O anel externo (o anel maior) é a sua garantia. Ele fica para fora, cobrindo a entrada da vagina ou ânus. Ele funciona como um 'guia' para o pênis. Dica: Você pode usar um pouco de lubrificante (à base de água ou silicone) na parte de fora para que a penetração seja mais suave e não corra o risco do pênis escorregar para o lado."},
-            {"pergunta": "O que NUNCA posso fazer com o preservativo feminino?", "resposta_correta": "F", "explicacao": "NUNCA use a camisinha interna e a camisinha externa ao mesmo tempo! O atrito entre os dois materiais pode rasgar as duas camisinhas. Escolha um ou outro."},
-            {"pergunta": "Como tirar sem fazer bagunça?", "resposta_correta": "V", "explicacao": "Você deve torcer o anel externo que está para fora. Isso 'fecha' a bolsa e prende o sêmen lá dentro. Depois, é só puxar com cuidado. Descarte: Sempre jogue no lixo, embrulhado num pedacinho de papel higiênico para descartar de forma discreta."},
-            {"pergunta": "Qual é a importância da comunicação e do consentimento em todas as relações sexuais?", "resposta_correta": "V", "explicacao": "A comunicação aberta e o consentimento são a base de qualquer relação sexual saudável e respeitosa. O consentimento deve ser claro, entusiástico e pode ser retirado a qualquer momento. É essencial para garantir que ambos os parceiros se sintam seguros e confortáveis, e para prevenir abusos."},
-            {"pergunta": "Qual é a diferença entre libido e desejo sexual?", "resposta_correta": "V", "explicacao": "Libido é o termo geral para o impulso sexual ou energia sexual de uma pessoa. O desejo sexual, por outro lado, é a vontade específica de ter atividade sexual. A libido é mais como o 'motor', enquanto o desejo é a 'vontade de dirigir'."},
-            {"pergunta": "O que é 'sexting' e quais os riscos associados se não for feito com consentimento e segurança?", "resposta_correta": "V", "explicacao": "Sexting é o ato de enviar mensagens, fotos ou vídeos de natureza sexual explícita. Os riscos incluem a exposição e a distribuição não consensual do conteúdo (pornografia de vingança), que é ilegal e pode ter graves consequências emocionais e legais."},
-            {"pergunta": "Explique brevemente o conceito de 'Zona de Conforto' na sexualidade.", "resposta_correta": "V", "explicacao": "Na sexualidade, a 'Zona de Conforto' refere-se às práticas, fantasias e níveis de intimidade com os quais uma pessoa se sente segura, à vontade e excitada. Explorar fora dessa zona com um parceiro requer comunicação, confiança e consentimento mútuo."}
+            {"pergunta": "VERDADEIRO ou FALSO: O erro mais comum ao usar um preservativo masculino é não retirar o ar da ponta (reservatório) antes de o desenrolar, o que pode fazê-lo estourar.", "resposta_correta": "V", "explicacao": "VERDADEIRO. Retirar o ar da ponta é essencial para evitar o rompimento do preservativo sob pressão."},
+            {"pergunta": "VERDADEIRO ou FALSO: Posso guardar um preservativo na carteira por longos períodos, pois o material é resistente ao calor e à fricção.", "resposta_correta": "F", "explicacao": "FALSO. O calor e a fricção podem danificar o látex, tornando o preservativo ineficaz. Guarde sempre em locais frescos e protegidos."},
+            {"pergunta": "VERDADEIRO ou FALSO: O anel externo do preservativo feminino serve para mantê-lo no lugar e para guiar a inserção e remoção.", "resposta_correta": "V", "explicacao": "VERDADEIRO. O anel externo cobre a área externa e é crucial para o uso correto do preservativo feminino."},
+            {"pergunta": "VERDADEIRO ou FALSO: O preservativo feminino e o diafragma são métodos contraceptivos de 'barreira', assim como a camisinha masculina.", "resposta_correta": "V", "explicacao": "VERDADEIRO. Métodos de barreira impedem fisicamente a passagem dos espermatozoides."},
+            {"pergunta": "VERDADEIRO ou FALSO: A 'pílula do dia seguinte' deve ser usada como método contraceptivo regular para maior eficácia.", "resposta_correta": "F", "explicacao": "FALSO. É um contraceptivo de emergência com alta dose hormonal. Seu uso regular é menos eficaz que métodos diários e causa desequilíbrios."},
+            {"pergunta": "VERDADEIRO ou FALSO: O preservativo protege contra todas as IST, sem nenhuma exceção.", "resposta_correta": "F", "explicacao": "FALSO. IST como HPV e Herpes podem ser transmitidas pelo contato com áreas da pele não cobertas pelo preservativo."},
+            {"pergunta": "VERDADEIRO ou FALSO: O duche vaginal (lavagem interna) após a relação sexual é eficaz para prevenir gravidez e IST.", "resposta_correta": "F", "explicacao": "FALSO. O duche pode na verdade aumentar o risco de infecções ao desequilibrar a flora vaginal."},
+            {"pergunta": "VERDADEIRO ou FALSO: O preservativo é o único método contraceptivo que oferece dupla proteção (gravidez e IST).", "resposta_correta": "V", "explicacao": "VERDADEIRO. Esta é a principal vantagem do preservativo, seja ele masculino ou feminino."},
+            {"pergunta": "VERDADEIRO ou FALSO: O 'Consentimento Contínuo' significa que o consentimento dado no início da relação não pode ser retirado.", "resposta_correta": "F", "explicacao": "FALSO. O consentimento pode e deve ser retirado a qualquer momento, sendo confirmado em cada etapa da atividade sexual."},
+            {"pergunta": "VERDADEIRO ou FALSO: Orientação Sexual e Identidade de Gênero referem-se ao mesmo conceito (por quem você se sente atraído).", "resposta_correta": "F", "explicacao": "FALSO. Orientação Sexual é sobre atração; Identidade de Gênero é o sentido interno de ser (ou não) homem/mulher."},
+            {"pergunta": "VERDADEIRO ou FALSO: Se uma pessoa não tem sintomas visíveis de IST, significa que ela não tem nenhuma infecção.", "resposta_correta": "F", "explicacao": "FALSO. Muitas IST são assintomáticas por longos períodos, o que torna os testes regulares cruciais."},
+            {"pergunta": "VERDADEIRO ou FALSO: Rasgar a embalagem do preservativo com os dentes ou unhas não causa danos suficientes para anular a proteção.", "resposta_correta": "F", "explicacao": "FALSO. Microfuros invisíveis podem anular a proteção. Use sempre os dedos na borda serrilhada."},
+            {"pergunta": "VERDADEIRO ou FALSO: Se o preservativo masculino começar a desenrolar do lado errado e tocar no pênis, basta virá-lo e continuar usando.", "resposta_correta": "F", "explicacao": "FALSO. Se tocou no pênis, jogue fora e use um novo, pois fluidos pré-ejaculatórios podem ter entrado em contato com a parte interna."},
+            {"pergunta": "VERDADEIRO ou FALSO: É crucial apertar a pontinha do preservativo antes de desenrolar para evitar que o ar preso cause rompimento.", "resposta_correta": "V", "explicacao": "VERDADEIRO. Isso garante que o reservatório fique pronto para receber o esperma sem estourar."},
+            {"pergunta": "VERDADEIRO ou FALSO: O preservativo só precisa cobrir a cabeça do pênis para ser eficaz.", "resposta_correta": "F", "explicacao": "FALSO. Deve ser desenrolado totalmente até a base do pênis para proteger por completo e prender o sêmen."},
+            {"pergunta": "VERDADEIRO ou FALSO: Para retirar o preservativo, deve-se segurar a borda na base imediatamente após a ejaculação, antes que o pênis amoleça.", "resposta_correta": "V", "explicacao": "VERDADEIRO. Isso evita vazamentos acidentais e garante que o sêmen fique preso dentro da camisinha."},
+            {"pergunta": "VERDADEIRO ou FALSO: O preservativo feminino pode ser colocado horas antes da relação sexual, o que é uma das suas grandes vantagens.", "resposta_correta": "V", "explicacao": "VERDADEIRO. Isso permite mais tranquilidade e garante que a proteção já esteja pronta."},
+            {"pergunta": "VERDADEIRO ou FALSO: Ao colocar o preservativo feminino, o anel menor deve ser apertado com os dedos e empurrado o mais fundo possível.", "resposta_correta": "V", "explicacao": "VERDADEIRO. O anel menor é o ponto de ancoragem para manter o preservativo no lugar dentro do canal."},
+            {"pergunta": "VERDADEIRO ou FALSO: Para garantir que o pênis entre na camisinha feminina, o anel externo (maior) funciona como um guia.", "resposta_correta": "V", "explicacao": "VERDADEIRO. O anel externo cobre a entrada e serve como 'guia' para o pênis."},
+            {"pergunta": "VERDADEIRO ou FALSO: É recomendado usar preservativo masculino e feminino ao mesmo tempo para maximizar a proteção.", "resposta_correta": "F", "explicacao": "FALSO. O atrito entre os dois materiais pode causar rasgos em ambos os preservativos, anulando a proteção."},
+            {"pergunta": "VERDADEIRO ou FALSO: Para remover o preservativo feminino, deve-se torcer o anel externo para fechar a bolsa antes de puxar.", "resposta_correta": "V", "explicacao": "VERDADEIRO. Torcer o anel sela o conteúdo e evita que o sêmen vaze durante a remoção."},
+            {"pergunta": "VERDADEIRO ou FALSO: O consentimento é a base de uma relação sexual saudável, mas não precisa ser confirmado em todas as etapas da atividade.", "resposta_correta": "F", "explicacao": "FALSO. O consentimento deve ser contínuo, claro e pode ser retirado a qualquer momento."},
+            {"pergunta": "VERDADEIRO ou FALSO: Libido e desejo sexual significam exatamente a mesma coisa.", "resposta_correta": "F", "explicacao": "FALSO. Libido é o impulso geral (o 'motor'); desejo sexual é a vontade específica de ter atividade (a 'vontade de dirigir')."},
+            {"pergunta": "VERDADEIRO ou FALSO: Sexting (envio de conteúdo íntimo) sem consentimento tem riscos, mas não consequências legais graves.", "resposta_correta": "F", "explicacao": "FALSO. A distribuição não consensual de conteúdo íntimo é ilegal e pode ter graves consequências emocionais e legais."},
+            {"pergunta": "VERDADEIRO ou FALSO: A 'Zona de Conforto' na sexualidade refere-se às práticas com as quais uma pessoa se sente totalmente segura e à vontade.", "resposta_correta": "V", "explicacao": "VERDADEIRO. Explorar fora dessa zona requer comunicação, confiança e consentimento mútuo."}
         ];
 
+        // PERGUNTAS V/F - DE RISCO (Casas Especiais)
         const perguntasRisco = [
-            {"pergunta": "Verdade ou Mito: Esquecer a pílula anticoncepcional num dia, mas tomá-la no dia seguinte, anula completamente o risco de gravidez.", "resposta_correta": "F", "explicacao": "A eficácia da pílula depende da tomada correta e diária. Se você falhar um dia, a proteção pode ser reduzida, e métodos de proteção adicionais (como o preservativo) devem ser usados nos dias seguintes, conforme as indicações médicas."},
-            {"pergunta": "É seguro usar dois preservativos ao mesmo tempo para maior proteção.", "resposta_correta": "F", "explicacao": "Usar dois preservativos aumenta o atrito entre eles, fazendo com que ambos se rasguem mais facilmente. Use sempre apenas um preservativo de cada vez."},
-            {"pergunta": "A pílula do dia seguinte pode ser usada como método contraceptivo regular.", "resposta_correta": "F", "explicacao": "A pílula do dia seguinte é apenas para emergências. Usar regularmente pode causar desequilíbrios hormonais e é menos eficaz que métodos contraceptivos regulares."},
-            {"pergunta": "É possível engravidar mesmo usando preservativo corretamente.", "resposta_correta": "V", "explicacao": "Nenhum método contraceptivo é 100% eficaz. O preservativo tem cerca de 98% de eficácia quando usado corretamente, mas ainda existe uma pequena possibilidade de falha."},
-            {"pergunta": "Toda IST apresenta sintomas visíveis.", "resposta_correta": "F", "explicacao": "Muita IST (como Clamídia, HPV e HIV) pode ser assintomática por longos períodos. Por isso é importante fazer testes regulares e usar sempre preservativo."},
-            {"pergunta": "O preservativo protege contra toda IST.", "resposta_correta": "F", "explicacao": "O preservativo protege contra a maioria das IST, mas algumas como HPV e Herpes podem ser transmitidas pelo contato com áreas da pele não cobertas pelo preservativo."},
-            {"pergunta": "Lubrificantes à base de óleo são seguros para usar com preservativos de látex.", "resposta_correta": "F", "explicacao": "Lubrificantes à base de óleo (como vaselina ou óleos de massagem) podem danificar o látex do preservativo, tornando-o menos eficaz e mais propenso a rasgar. Use sempre lubrificantes à base de água ou silicone com preservativos de látex."},
-            {"pergunta": "É possível engravidar tendo relação sexual durante a menstruação.", "resposta_correta": "V", "explicacao": "Embora a probabilidade seja menor, espermatozoides podem sobreviver por vários dias no corpo feminino, e a ovulação pode ocorrer mais cedo em alguns ciclos, levando à gravidez. Sempre use proteção se não deseja engravidar."},
-            {"pergunta": "IST é um problema de saúde apenas para pessoas sexualmente ativas com múltiplos parceiros.", "resposta_correta": "F", "explicacao": "Qualquer pessoa sexualmente ativa pode contrair uma IST, independentemente do número de parceiros. O risco está na prática sexual desprotegida."},
-            {"pergunta": "O sexo anal é uma prática de baixo risco para a transmissão de IST em comparação com o sexo vaginal.", "resposta_correta": "F", "explicacao": "O sexo anal é, na verdade, uma prática de alto risco para a transmissão de IST (incluindo o HIV) devido à maior fragilidade do tecido anal, que pode sofrer microlesões mais facilmente. O uso correto do preservativo e lubrificante é essencial."}
+            {"pergunta": "VERDADEIRO ou FALSO: Esquecer a pílula anticoncepcional num dia e tomá-la no dia seguinte anula completamente o risco de gravidez.", "resposta_correta": "F", "explicacao": "FALSO. A proteção é reduzida, e é necessário usar proteção adicional. Falhas na tomada aumentam o risco."},
+            {"pergunta": "VERDADEIRO ou FALSO: É seguro usar dois preservativos ao mesmo tempo para maior proteção.", "resposta_correta": "F", "explicacao": "FALSO. O atrito aumenta o risco de rasgos. Use sempre apenas um preservativo."},
+            {"pergunta": "VERDADEIRO ou FALSO: A pílula do dia seguinte pode ser usada como método contraceptivo regular.", "resposta_correta": "F", "explicacao": "FALSO. A pílula do dia seguinte é apenas para emergências. Não deve ser usada como rotina."},
+            {"pergunta": "VERDADEIRO ou FALSO: É impossível engravidar se o preservativo for usado corretamente.", "resposta_correta": "F", "explicacao": "FALSO. Nenhum método é 100% eficaz, embora o risco seja muito baixo quando usado corretamente."},
+            {"pergunta": "VERDADEIRO ou FALSO: Toda IST apresenta sintomas visíveis.", "resposta_correta": "F", "explicacao": "FALSO. Muitas IST são assintomáticas por longos períodos."},
+            {"pergunta": "VERDADEIRO ou FALSO: O preservativo protege contra absolutamente toda IST existente.", "resposta_correta": "F", "explicacao": "FALSO. Algumas IST (como HPV e Herpes) podem ser transmitidas por contato com pele não coberta."},
+            {"pergunta": "VERDADEIRO ou FALSO: Lubrificantes à base de óleo são seguros para usar com preservativos de látex.", "resposta_correta": "F", "explicacao": "FALSO. Lubrificantes à base de óleo danificam o látex, tornando o preservativo ineficaz."},
+            {"pergunta": "VERDADEIRO ou FALSO: É impossível engravidar tendo relação sexual durante a menstruação.", "resposta_correta": "F", "explicacao": "FALSO. A ovulação pode ocorrer mais cedo em alguns ciclos, e os espermatozoides sobrevivem por vários dias."},
+            {"pergunta": "VERDADEIRO ou FALSO: IST é um problema de saúde apenas para pessoas com múltiplos parceiros.", "resposta_correta": "F", "explicacao": "FALSO. Qualquer pessoa sexualmente ativa pode contrair IST, o risco está na prática desprotegida."},
+            {"pergunta": "VERDADEIRO ou FALSO: O sexo anal é uma prática de baixo risco para a transmissão de IST em comparação com o sexo vaginal.", "resposta_correta": "F", "explicacao": "FALSO. O sexo anal é de alto risco devido à fragilidade do tecido. O uso correto de preservativo e lubrificante é crucial."}
         ];
 
         // Mapeamento dos NOVOS arquivos de imagem
         const characterImages = {
-            'boy_q': 'http://googleusercontent.com/file_content/1000007040.png', // Garoto Pensativo
-            'boy_a': 'http://googleusercontent.com/file_content/1000007043.png', // Garoto Acerto
-            'boy_e': 'http://googleusercontent.com/file_content/1000007046.png', // Garoto Erro
+            'boy_q': 'http://googleusercontent.com/file_content/1000007040.png', 
+            'boy_a': 'http://googleusercontent.com/file_content/1000007043.png', 
+            'boy_e': 'http://googleusercontent.com/file_content/1000007046.png', 
             
-            'girl_q': 'http://googleusercontent.com/file_content/1000007042.png', // Garota Pensativa/Ideia
-            'girl_a': 'http://googleusercontent.com/file_content/1000007044.png', // Garota Acerto
-            'girl_e': 'http://googleusercontent.com/file_content/1000007045.png', // Garota Erro
+            'girl_q': 'http://googleusercontent.com/file_content/1000007042.png', 
+            'girl_a': 'http://googleusercontent.com/file_content/1000007044.png', 
+            'girl_e': 'http://googleusercontent.com/file_content/1000007045.png', 
         };
 
         // Elementos de Áudio
@@ -352,6 +356,7 @@
         }
 
         function closeVideoModal() {
+            document.getElementById('videoModal').classList.remove('initial-show');
             document.getElementById('videoModal').style.display = 'none';
             document.getElementById('gameContainer').style.display = 'block';
             document.getElementById('introVideo').pause();
@@ -649,7 +654,6 @@
 
             setTimeout(() => {
                 const square = document.getElementById(`square-${player.position}`);
-                // 50% chance de cair na pergunta informativa se for casa normal, senão vai para V/F Risco
                 if (square.classList.contains('normal')) {
                     showCharacterCard(player.position);
                     showInformativeQuestion();
@@ -720,25 +724,14 @@
             }, 2000);
         }
 
+        // Função para perguntas V/F Informativas (Casas Normais)
         function showInformativeQuestion() {
             const randomIndex = Math.floor(Math.random() * perguntasInformativas.length);
             currentQuestion = perguntasInformativas[randomIndex];
             currentQuestionType = 'informative';
-            document.getElementById('modalTitle').textContent = 'Pergunta Informativa'; // Título genérico, pois as perguntas são de temas diversos
+            document.getElementById('modalTitle').textContent = 'V/F Informativo: Conhecimento é Poder';
             document.getElementById('modalQuestion').textContent = currentQuestion.pergunta;
-            // Para as perguntas informativas, o jogador clica para ver a resposta/explicação
-            document.getElementById('modalButtons').innerHTML = `
-                <button class="btn btn-primary" onclick="showAnswerAndContinue()">Ver Resposta</button>
-            `;
-            document.getElementById('questionModal').style.display = 'flex';
-        }
-
-        function showVFQuestion() {
-            const randomIndex = Math.floor(Math.random() * perguntasRisco.length);
-            currentQuestion = perguntasRisco[randomIndex];
-            currentQuestionType = 'vf';
-            document.getElementById('modalTitle').textContent = 'Pergunta de Risco: Verdadeiro ou Falso?';
-            document.getElementById('modalQuestion').textContent = currentQuestion.pergunta;
+            // Botões V/F para casas normais
             document.getElementById('modalButtons').innerHTML = `
                 <div class="vf-buttons">
                     <button class="btn btn-true" onclick="checkVFAnswer('V')">Verdadeiro</button>
@@ -747,6 +740,24 @@
             `;
             document.getElementById('questionModal').style.display = 'flex';
         }
+
+        // Função para perguntas V/F de Risco (Casas Especiais)
+        function showVFQuestion() {
+            const randomIndex = Math.floor(Math.random() * perguntasRisco.length);
+            currentQuestion = perguntasRisco[randomIndex];
+            currentQuestionType = 'vf';
+            document.getElementById('modalTitle').textContent = 'V/F Risco: Decisão Crítica';
+            document.getElementById('modalQuestion').textContent = currentQuestion.pergunta;
+            // Botões V/F para casas de risco
+            document.getElementById('modalButtons').innerHTML = `
+                <div class="vf-buttons">
+                    <button class="btn btn-true" onclick="checkVFAnswer('V')">Verdadeiro</button>
+                    <button class="btn btn-false" onclick="checkVFAnswer('F')">Falso</button>
+                </div>
+            `;
+            document.getElementById('questionModal').style.display = 'flex';
+        }
+
 
         function showCharacterCard(position) {
             const characterCard = document.getElementById(`character-${position}`);
@@ -789,7 +800,7 @@
             }
         }
 
-        // Função ajustada para Perguntas de Risco (V/F)
+        // Função de verificação e pontuação V/F
         function checkVFAnswer(answer) {
             const isCorrect = answer === currentQuestion.resposta_correta;
             const player = gameState.players[gameState.currentPlayer];
@@ -805,15 +816,19 @@
                     createStarsCelebration();
                 }, 500);
             } else {
-                player.bombs++;
-                document.getElementById('answerTitle').textContent = '❌ Erro Grave! +1 Bomba';
-                // Penalidade do jogo 1: Volta ao início.
-                player.position = 1; 
-                setTimeout(() => {
-                    createErrorVisualEffect();
-                    createExplosion();
-                    initializeBoard(); // Redesenha para mover o peão
-                }, 500);
+                // Penalidade
+                if (currentQuestionType === 'vf') { // Se for Casa de Risco (V/F Risco)
+                    player.bombs++;
+                    document.getElementById('answerTitle').textContent = '❌ Erro Grave! Volte ao Início.';
+                    player.position = 1; // Penalidade: Volta ao início.
+                    setTimeout(() => {
+                        createErrorVisualEffect();
+                        createExplosion();
+                        initializeBoard(); 
+                    }, 500);
+                } else { // Se for Casa Normal (V/F Informativo)
+                    document.getElementById('answerTitle').textContent = '❌ Incorreto. Continue aprendendo!';
+                }
             }
             
             document.getElementById('answerText').textContent = currentQuestion.explicacao;
@@ -823,25 +838,10 @@
             document.getElementById('answerModal').style.display = 'flex';
         }
 
-        // Nova função para mostrar resposta de perguntas informativas e continuar
         function showAnswerAndContinue() {
-            document.getElementById('questionModal').style.display = 'none';
-            document.getElementById('answerTitle').textContent = 'Aprenda Mais!';
-            document.getElementById('answerText').textContent = currentQuestion.explicacao;
-            
-            // Reação neutra, pois é informativa, não acerto/erro
-            const player = gameState.players[gameState.currentPlayer];
-            const isGirl = player.position % 2 === 0;
-            const characterCard = document.getElementById(`character-${player.position}`);
-            const avatar = characterCard.querySelector('.character-avatar');
-            const message = characterCard.querySelector('.character-message');
-
-            characterCard.classList.remove('happy', 'sad');
-            message.classList.remove('happy', 'sad');
-            message.textContent = 'Conhecimento é poder! 💡';
-            avatar.style.backgroundImage = `url(${isGirl ? characterImages.girl_q : characterImages.boy_q})`;
-
-            document.getElementById('answerModal').style.display = 'flex';
+            // Esta função foi adaptada para ser chamada pelas casas normais
+            // A lógica de pontuação está agora dentro de checkVFAnswer
+            closeModal();
         }
 
 
@@ -913,6 +913,12 @@
             coinAudio.load();
             winAudio.load();
             
+            // Corrige a exibição inicial do modal de vídeo
+            const videoModal = document.getElementById('videoModal');
+            if (videoModal) {
+                videoModal.classList.add('initial-show');
+            }
+
             if (window.elementSdk) {
                 window.elementSdk.init({
                     defaultConfig,
