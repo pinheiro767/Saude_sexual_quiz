@@ -161,7 +161,7 @@
     <div class="modal" id="videoModal" style="display: flex;">
         <div class="modal-content">
             <video id="introVideo" width="100%" height="auto" autoplay loop muted>
-                <source src="http://googleusercontent.com/file_content/1000007047.mp4" type="video/mp4">
+                <source src="http://googleusercontent.com/file_content/1000007068.mp4" type="video/mp4">
                 Seu navegador não suporta a tag de vídeo.
             </video>
             <div class="modal-buttons">
@@ -247,52 +247,57 @@
     <audio id="winAudio" src="http://googleusercontent.com/file_content/win.wav"></audio>
 
     <script>
-        // Dados do jogo (MANTIDOS do seu código original)
+        // PERGUNTAS E RESPOSTAS DO JOGO (SOMENTE AS LISTADAS PELO USUÁRIO)
         const perguntasInformativas = [
-            {"pergunta": "É seguro rasgar a embalagem do preservativo com os dentes para ser mais rápido.", "resposta_correta": "F", "explicacao": "FALSO. Rasgar com os dentes ou unhas pode causar microfuros invisíveis que anulam a proteção. Sempre use os dedos para rasgar na borda serrilhada. Guarde em locais frescos, longe do calor."},
-            {"pergunta": "Se colocar o preservativo do lado errado e ele tocar no pênis, posso virá-lo e usar normalmente.", "resposta_correta": "F", "explicacao": "FALSO. Se começou do lado errado e tocou no pênis, joguei fora e pegue outro! Fluidos pré-ejaculatórios podem ter entrado em contato com a parte interna."},
-            {"pergunta": "É importante apertar a pontinha do preservativo antes de desenrolar para tirar o ar.", "resposta_correta": "V", "explicacao": "VERDADEIRO. A pontinha é o reservatório do esperma. Se não tirar o ar, a pressão na ejaculação pode estourar o preservativo."},
-            {"pergunta": "O preservativo protege mesmo se não desenrolar até a base do pênis.", "resposta_correta": "F", "explicacao": "FALSO. Deve desenrolar completamente até a base. É ali que a borda forma uma 'barreira' que ajuda a prender o esperma e manter a proteção."},
-            {"pergunta": "Posso retirar o preservativo a qualquer momento após a ejaculação sem cuidados especiais.", "resposta_correta": "F", "explicacao": "FALSO. Deve ser rápido e cuidadoso imediatamente após a ejaculação, antes do pênis amolecer. Segure a borda na base e retire devagar."},
-            {"pergunta": "O preservativo feminino pode ser colocado horas antes da relação sexual.", "resposta_correta": "V", "explicacao": "VERDADEIRO. Esta é uma grande vantagem! Pode ser colocado com antecedência, tirando a pressão do momento e garantindo que a proteção já está pronta."},
-            {"pergunta": "É normal o preservativo feminino ficar frouxo ou torcido dentro do canal vaginal.", "resposta_correta": "V", "explicacao": "VERDADEIRO. Essa folga é normal e permite que ele se ajuste durante a relação. O importante é que o anel menor esteja bem fundo e o maior cubra a entrada."},
-            {"pergunta": "Posso usar preservativo masculino e feminino ao mesmo tempo para maior proteção.", "resposta_correta": "F", "explicacao": "FALSO. NUNCA use os dois juntos! O atrito entre os materiais pode rasgar ambos os preservativos. Escolha apenas um."},
-            {"pergunta": "O diafragma é considerado um método contraceptivo de barreira.", "resposta_correta": "V", "explicacao": "VERDADEIRO. O diafragma (usado com espermicida) e os preservativos são exemplos de métodos de barreira que impedem fisicamente a passagem dos espermatozoides."},
-            {"pergunta": "A pílula do dia seguinte pode ser usada como método contraceptivo regular.", "resposta_correta": "F", "explicacao": "FALSO. É apenas para emergências. Usar regularmente causa desequilíbrios hormonais e é menos eficaz que métodos contraceptivos regulares."},
-            {"pergunta": "O preservativo protege contra todas as IST sem exceção.", "resposta_correta": "F", "explicacao": "FALSO. Protege contra a maioria, mas IST como HPV e Herpes podem ser transmitidas pelo contato com áreas da pele não cobertas pelo preservativo."},
-            {"pergunta": "O duche vaginal após a relação é eficaz para prevenir gravidez e IST.", "resposta_correta": "F", "explicacao": "FALSO. O duche pode empurrar bactérias para dentro do útero e desequilibra a flora vaginal, aumentando o risco de infecções."},
-            {"pergunta": "O preservativo é o único método que oferece dupla proteção: contra gravidez e IST.", "resposta_correta": "V", "explicacao": "VERDADEIRO. É o único método contraceptivo que também oferece proteção contra a maioria das Infecções Sexualmente Transmissíveis."},
-            {"pergunta": "O consentimento dado no início da relação vale para toda a atividade sexual.", "resposta_correta": "F", "explicacao": "FALSO. O consentimento deve ser contínuo e pode ser retirado a qualquer momento. Deve ser confirmado em cada etapa da atividade sexual."},
-            {"pergunta": "Libido e desejo sexual são exatamente a mesma coisa.", "resposta_correta": "F", "explicacao": "FALSO. Libido é o impulso sexual geral (o 'motor'), enquanto desejo sexual é a vontade específica de ter atividade sexual (a 'vontade de dirigir')."},
-            {"pergunta": "Sexting sem consentimento pode ter consequências legais graves.", "resposta_correta": "V", "explicacao": "VERDADEIRO. A distribuição não consensual de conteúdo íntimo (pornografia de vingança) é ilegal e pode ter graves consequências emocionais e legais."},
-            {"pergunta": "Orientação Sexual e Identidade de Gênero referem-se ao mesmo conceito.", "resposta_correta": "F", "explicacao": "FALSO. Orientação Sexual é sobre atração por outras pessoas. Identidade de Gênero é o sentido interno de ser homem, mulher, ambos, nenhum ou outro gênero."},
-            {"pergunta": "Uma pessoa sem sintomas visíveis de IST não pode ter nenhuma infecção.", "resposta_correta": "F", "explicacao": "FALSO. Muitas IST (como Clamídia e HPV) podem ser assintomáticas por muito tempo. Por isso são essenciais os testes regulares e o uso de preservativo."},
-            {"pergunta": "Lubrificantes à base de óleo são seguros com preservativos de látex.", "resposta_correta": "F", "explicacao": "FALSO. Óleos (vaselina, óleos de massagem) danificam o látex, tornando o preservativo menos eficaz. Use lubrificantes à base de água ou silicone."},
-            {"pergunta": "É impossível engravidar durante a menstruação.", "resposta_correta": "F", "explicacao": "FALSO. Embora menos provável, espermatozoides sobrevivem dias no corpo e a ovulação pode ocorrer mais cedo em alguns ciclos. Sempre use proteção se não deseja engravidar."}
+            {"pergunta": "Qual o erro mais comum ao usar um preservativo masculino e como corrigi-lo?", "resposta_correta": "V", "explicacao": "O erro mais comum é não retirar o ar da ponta do preservativo antes de o desenrolar no pênis. Isso pode criar uma bolha de ar que faz com que o preservativo estoure. Basta apertar suavemente a ponta (reservatório) antes de o colocar."},
+            {"pergunta": "Por quanto tempo posso guardar um preservativo na carteira ou no porta-luvas do carro antes que ele se torne inseguro?", "resposta_correta": "F", "explicacao": "O calor e a fricção (esfregar na carteira) podem danificar o látex, tornando o preservativo ineficaz. Você deve guardá-lo num local fresco, seco e protegido (como um bolso da mochila) e verificar sempre o prazo de validade antes de usar."},
+            {"pergunta": "Para que serve o anel externo do preservativo feminino e como se usa?", "resposta_correta": "V", "explicacao": "O anel externo serve para manter o preservativo feminino no lugar fora da vagina (ou ânus), cobrindo a vulva/área externa. É também usado para guiar a inserção e a remoção."},
+            {"pergunta": "Além da camisinha masculina, quais são os outros métodos contraceptivos que funcionam como 'barreira'?", "resposta_correta": "V", "explicacao": "O preservativo feminino e o diafragma (que precisa ser usado com espermicida) são exemplos de métodos de barreira."},
+            {"pergunta": "O que é a 'pílula do dia seguinte' e deve ser usada como método contraceptivo regular?", "resposta_correta": "F", "explicacao": "É um contraceptivo de emergência que deve ser usado apenas em casos pontuais de falha ou ausência de outro método. Não deve ser usado como método contraceptivo regular, pois a sua eficácia é menor do que a pílula diária e a dose hormonal é muito elevada."},
+            {"pergunta": "Existe alguma IST que o preservativo não protege totalmente? Se sim, qual?", "resposta_correta": "V", "explicacao": "Sim. O preservativo protege as áreas que cobre, mas IST como o HPV (Vírus do Papiloma Humano) e o Herpes Genital podem ser transmitidas pelo contato com áreas da pele infectadas que não estão cobertas pelo preservativo."},
+            {"pergunta": "Mito ou Verdade: O duche vaginal após a relação sexual é um método eficaz para prevenir a gravidez e a IST.", "resposta_correta": "F", "explicacao": "Mito. O duche pode na verdade empurrar bactérias e vírus para dentro do colo do útero e desequilibra a flora vaginal, aumentando o risco de infecções."},
+            {"pergunta": "Qual é o único método contraceptivo que oferece proteção contra a maioria das Infeções Sexualmente Transmissíveis (IST)?", "resposta_correta": "V", "explicacao": "O preservativo (masculino ou feminino) é o único método que oferece dupla proteção: contra a gravidez e contra a maioria das IST."},
+            {"pergunta": "O que significa 'Consentimento Contínuo' e por que é importante?", "resposta_correta": "V", "explicacao": "Significa que o consentimento deve ser dado e confirmado em cada etapa da atividade sexual, podendo ser retirado a qualquer momento. É crucial porque o consentimento anterior não garante o atual."},
+            {"pergunta": "Qual é a diferença entre Orientação Sexual e Identidade de Gênero?", "resposta_correta": "V", "explicacao": "Orientação Sexual é a atração emocional, romântica e/ou sexual por outras pessoas. Identidade de Gênero é o sentido interno e individual de ser homem, mulher, ambos, nenhum, ou noutro gênero."},
+            {"pergunta": "Se uma pessoa não tem sintomas visíveis de IST, significa que não tem a infecção? Porquê?", "resposta_correta": "F", "explicacao": "Não. Muita IST (como Clamídia e HPV) pode ser assintomática durante muito tempo, tornando os testes e o uso de preservativo essenciais mesmo na ausência de sintomas."},
+            {"pergunta": "Na pressa, qual é o erro mais bobo que pode estragar a camisinha antes mesmo de usar?", "resposta_correta": "F", "explicacao": "Rasgar a embalagem com os dentes ou as unhas. Parece rápido, mas um microfuro invisível já anula a proteção. Dica: Sempre use os dedos para rasgar o sachê na borda serrilhada. Atenção: Guarde a camisinha em locais frescos, longe do calor (nada de porta-luvas do carro ou carteira apertada) para não danificar o material."},
+            {"pergunta": "Qual lado é o certo para desenrolar e o que fazer se colocar no lado errado?", "resposta_correta": "V", "explicacao": "O lado certo é aquele em que a borda está para fora, parecendo um pequeno chapéu. Se você tentar desenrolar e ela não descer facilmente, é porque está do lado errado. Regra de Ouro: Se começou a desenrolar do lado errado e tocou no pênis, jogue fora e pegue outra! Fluidos pré-ejaculatórios (que já podem ter IST e espermatozoides) podem ter entrado em contato com a parte de dentro."},
+            {"pergunta": "Por que é crucial apertar a pontinha (o 'bico') antes de desenrolar?", "resposta_correta": "V", "explicacao": "Aquela pontinha é o reservatório do esperma. Se não apertar para tirar o ar, o ar fica preso. Na hora da ejaculação, a pressão pode ser tanta que o preservativo estoura. O que fazer: Segure a pontinha (reservatório) com dois dedos para tirar o ar. Mantenha os dedos ali enquanto apoia a camisinha na cabeça do pênis ereto."},
+            {"pergunta": "Tenho que desenrolar até o final, até a base?", "resposta_correta": "V", "explicacao": "Sim, totalmente! A camisinha só protege se cobrir o pênis por inteiro, da cabeça até a base. É ali, na base, que a borda forma uma 'barra' que ajuda a prender o esperma. Como fazer: Depois de apertar a ponta, use o dedo que sobrou (ou a outra mão) para desenrolar a camisinha completamente até a raiz do pênis."},
+            {"pergunta": "Na hora de tirar, como garantir que não vai vazar nada?", "resposta_correta": "V", "explicacao": "Você precisa ser rápido e cuidadoso imediatamente após a ejaculação, antes que o pênis comece a ficar mole. Passo 1: Segure a borda da camisinha na base do pênis. Passo 2: Retire o pênis devagar da vagina ou do ânus. Passo 3: Retire a camisinha e jogue no lixo. (Nunca no vaso sanitário, pois entope)."},
+            {"pergunta": "Posso colocar a camisinha feminina com antecedência?", "resposta_correta": "V", "explicacao": "Sim, e essa é uma das grandes vantagens! Você pode colocar o preservativo feminino horas antes da relação sexual. Isso tira a pressão do momento e garante que a prevenção já está pronta. Como saber que está pronto: O anel maior deve estar para fora da vagina (ou ânus), cobrindo a entrada, e o anel menor deve estar bem fundo, lá dentro."},
+            {"pergunta": "O anel menor precisa ficar muito fundo? Como coloco?", "resposta_correta": "V", "explicacao": "Sim, o anel menor é quem prende a camisinha lá dentro. Você deve apertá-lo com os dedos, como se fosse um absorvente interno, e empurrá-lo o mais fundo que conseguir. Posição: Escolha a posição mais fácil: agachada, deitada ou com uma perna apoiada em algum lugar. O que é normal: É normal que o preservativo fique frouxo ou meio torcido dentro do canal. Essa folga é normal e permite que ele se ajuste."},
+            {"pergunta": "Como garantir que o pênis vai entrar dentro da camisinha e não ao lado?", "resposta_correta": "V", "explicacao": "O anel externo (o anel maior) é a sua garantia. Ele fica para fora, cobrindo a entrada da vagina ou ânus. Ele funciona como um 'guia' para o pênis. Dica: Você pode usar um pouco de lubrificante (à base de água ou silicone) na parte de fora para que a penetração seja mais suave e não corra o risco do pênis escorregar para o lado."},
+            {"pergunta": "O que NUNCA posso fazer com o preservativo feminino?", "resposta_correta": "F", "explicacao": "NUNCA use a camisinha interna e a camisinha externa ao mesmo tempo! O atrito entre os dois materiais pode rasgar as duas camisinhas. Escolha um ou outro."},
+            {"pergunta": "Como tirar sem fazer bagunça?", "resposta_correta": "V", "explicacao": "Você deve torcer o anel externo que está para fora. Isso 'fecha' a bolsa e prende o sêmen lá dentro. Depois, é só puxar com cuidado. Descarte: Sempre jogue no lixo, embrulhado num pedacinho de papel higiênico para descartar de forma discreta."},
+            {"pergunta": "Qual é a importância da comunicação e do consentimento em todas as relações sexuais?", "resposta_correta": "V", "explicacao": "A comunicação aberta e o consentimento são a base de qualquer relação sexual saudável e respeitosa. O consentimento deve ser claro, entusiástico e pode ser retirado a qualquer momento. É essencial para garantir que ambos os parceiros se sintam seguros e confortáveis, e para prevenir abusos."},
+            {"pergunta": "Qual é a diferença entre libido e desejo sexual?", "resposta_correta": "V", "explicacao": "Libido é o termo geral para o impulso sexual ou energia sexual de uma pessoa. O desejo sexual, por outro lado, é a vontade específica de ter atividade sexual. A libido é mais como o 'motor', enquanto o desejo é a 'vontade de dirigir'."},
+            {"pergunta": "O que é 'sexting' e quais os riscos associados se não for feito com consentimento e segurança?", "resposta_correta": "V", "explicacao": "Sexting é o ato de enviar mensagens, fotos ou vídeos de natureza sexual explícita. Os riscos incluem a exposição e a distribuição não consensual do conteúdo (pornografia de vingança), que é ilegal e pode ter graves consequências emocionais e legais."},
+            {"pergunta": "Explique brevemente o conceito de 'Zona de Conforto' na sexualidade.", "resposta_correta": "V", "explicacao": "Na sexualidade, a 'Zona de Conforto' refere-se às práticas, fantasias e níveis de intimidade com os quais uma pessoa se sente segura, à vontade e excitada. Explorar fora dessa zona com um parceiro requer comunicação, confiança e consentimento mútuo."}
         ];
 
         const perguntasRisco = [
-            {"pergunta": "Verdade ou Mito: Esquecer a pílula anticoncepcional num dia, mas tomá-la no dia seguinte, anula completamente o risco de gravidez.", "resposta_correta": "F", "explicacao": "FALSO. A eficácia da pílula depende da tomada correta e diária. Se você falhar um dia, a proteção pode ser reduzida, e métodos de proteção adicionais (como o preservativo) devem ser usados nos dias seguintes, conforme as indicações médicas."},
-            {"pergunta": "É seguro usar dois preservativos ao mesmo tempo para maior proteção.", "resposta_correta": "F", "explicacao": "FALSO. Usar dois preservativos aumenta o atrito entre eles, fazendo com que ambos se rasguem mais facilmente. Use sempre apenas um preservativo de cada vez."},
-            {"pergunta": "A pílula do dia seguinte pode ser usada como método contraceptivo regular.", "resposta_correta": "F", "explicacao": "FALSO. A pílula do dia seguinte é apenas para emergências. Usar regularmente pode causar desequilíbrios hormonais e é menos eficaz que métodos contraceptivos regulares."},
-            {"pergunta": "É possível engravidar mesmo usando preservativo corretamente.", "resposta_correta": "V", "explicacao": "VERDADEIRO. Nenhum método contraceptivo é 100% eficaz. O preservativo tem cerca de 98% de eficácia quando usado corretamente, mas ainda existe uma pequena possibilidade de falha."},
-            {"pergunta": "Toda IST apresenta sintomas visíveis.", "resposta_correta": "F", "explicacao": "FALSO. Muita IST (como Clamídia, HPV e HIV) pode ser assintomática por longos períodos. Por isso é importante fazer testes regulares e usar sempre preservativo."},
-            {"pergunta": "O preservativo protege contra toda IST.", "resposta_correta": "F", "explicacao": "FALSO. O preservativo protege contra a maioria das IST, mas algumas como HPV e Herpes podem ser transmitidas pelo contato com áreas da pele não cobertas pelo preservativo."},
-            {"pergunta": "Lubrificantes à base de óleo são seguros para usar com preservativos de látex.", "resposta_correta": "F", "explicacao": "FALSO. Lubrificantes à base de óleo (como vaselina ou óleos de massagem) podem danificar o látex do preservativo, tornando-o menos eficaz e mais propenso a rasgar. Use sempre lubrificantes à base de água ou silicone com preservativos de látex."},
-            {"pergunta": "É possível engravidar tendo relação sexual durante a menstruação.", "resposta_correta": "V", "explicacao": "VERDADEIRO. Embora a probabilidade seja menor, espermatozoides podem sobreviver por vários dias no corpo feminino, e a ovulação pode ocorrer mais cedo em alguns ciclos, levando à gravidez. Sempre use proteção se não deseja engravidar."},
-            {"pergunta": "IST é um problema de saúde apenas para pessoas sexualmente ativas com múltiplos parceiros.", "resposta_correta": "F", "explicacao": "FALSO. Qualquer pessoa sexualmente ativa pode contrair uma IST, independentemente do número de parceiros. O risco está na prática sexual desprotegida."},
-            {"pergunta": "O sexo anal é uma prática de baixo risco para a transmissão de IST em comparação com o sexo vaginal.", "resposta_correta": "F", "explicacao": "FALSO. O sexo anal é, na verdade, uma prática de alto risco para a transmissão de IST (incluindo o HIV) devido à maior fragilidade do tecido anal, que pode sofrer microlesões mais facilmente. O uso correto do preservativo e lubrificante é essencial."}
+            {"pergunta": "Verdade ou Mito: Esquecer a pílula anticoncepcional num dia, mas tomá-la no dia seguinte, anula completamente o risco de gravidez.", "resposta_correta": "F", "explicacao": "A eficácia da pílula depende da tomada correta e diária. Se você falhar um dia, a proteção pode ser reduzida, e métodos de proteção adicionais (como o preservativo) devem ser usados nos dias seguintes, conforme as indicações médicas."},
+            {"pergunta": "É seguro usar dois preservativos ao mesmo tempo para maior proteção.", "resposta_correta": "F", "explicacao": "Usar dois preservativos aumenta o atrito entre eles, fazendo com que ambos se rasguem mais facilmente. Use sempre apenas um preservativo de cada vez."},
+            {"pergunta": "A pílula do dia seguinte pode ser usada como método contraceptivo regular.", "resposta_correta": "F", "explicacao": "A pílula do dia seguinte é apenas para emergências. Usar regularmente pode causar desequilíbrios hormonais e é menos eficaz que métodos contraceptivos regulares."},
+            {"pergunta": "É possível engravidar mesmo usando preservativo corretamente.", "resposta_correta": "V", "explicacao": "Nenhum método contraceptivo é 100% eficaz. O preservativo tem cerca de 98% de eficácia quando usado corretamente, mas ainda existe uma pequena possibilidade de falha."},
+            {"pergunta": "Toda IST apresenta sintomas visíveis.", "resposta_correta": "F", "explicacao": "Muita IST (como Clamídia, HPV e HIV) pode ser assintomática por longos períodos. Por isso é importante fazer testes regulares e usar sempre preservativo."},
+            {"pergunta": "O preservativo protege contra toda IST.", "resposta_correta": "F", "explicacao": "O preservativo protege contra a maioria das IST, mas algumas como HPV e Herpes podem ser transmitidas pelo contato com áreas da pele não cobertas pelo preservativo."},
+            {"pergunta": "Lubrificantes à base de óleo são seguros para usar com preservativos de látex.", "resposta_correta": "F", "explicacao": "Lubrificantes à base de óleo (como vaselina ou óleos de massagem) podem danificar o látex do preservativo, tornando-o menos eficaz e mais propenso a rasgar. Use sempre lubrificantes à base de água ou silicone com preservativos de látex."},
+            {"pergunta": "É possível engravidar tendo relação sexual durante a menstruação.", "resposta_correta": "V", "explicacao": "Embora a probabilidade seja menor, espermatozoides podem sobreviver por vários dias no corpo feminino, e a ovulação pode ocorrer mais cedo em alguns ciclos, levando à gravidez. Sempre use proteção se não deseja engravidar."},
+            {"pergunta": "IST é um problema de saúde apenas para pessoas sexualmente ativas com múltiplos parceiros.", "resposta_correta": "F", "explicacao": "Qualquer pessoa sexualmente ativa pode contrair uma IST, independentemente do número de parceiros. O risco está na prática sexual desprotegida."},
+            {"pergunta": "O sexo anal é uma prática de baixo risco para a transmissão de IST em comparação com o sexo vaginal.", "resposta_correta": "F", "explicacao": "O sexo anal é, na verdade, uma prática de alto risco para a transmissão de IST (incluindo o HIV) devido à maior fragilidade do tecido anal, que pode sofrer microlesões mais facilmente. O uso correto do preservativo e lubrificante é essencial."}
         ];
 
-        // Mapeamento das imagens de personagem (URL's dos arquivos carregados)
+        // Mapeamento dos NOVOS arquivos de imagem
         const characterImages = {
-            'boy_q': 'http://googleusercontent.com/file_content/3.jpg', // Garoto pensativo (Imagem 3.jpg)
-            'boy_a': 'http://googleusercontent.com/file_content/5.jpg', // Garoto YES! (Imagem 5.jpg)
-            'boy_e': 'http://googleusercontent.com/file_content/7.jpg', // Garoto WHAT?! (Imagem 7.jpg)
+            'boy_q': 'http://googleusercontent.com/file_content/1000007040.png', // Garoto Pensativo
+            'boy_a': 'http://googleusercontent.com/file_content/1000007043.png', // Garoto Acerto
+            'boy_e': 'http://googleusercontent.com/file_content/1000007046.png', // Garoto Erro
             
-            'girl_q': 'http://googleusercontent.com/file_content/3.jpg', // Garota pensativa (Imagem 3.jpg)
-            'girl_a': 'http://googleusercontent.com/file_content/5.jpg', // Garota YES! (Imagem 5.jpg)
-            'girl_e': 'http://googleusercontent.com/file_content/6.jpg', // Garota NO! (Imagem 6.jpg)
+            'girl_q': 'http://googleusercontent.com/file_content/1000007042.png', // Garota Pensativa/Ideia
+            'girl_a': 'http://googleusercontent.com/file_content/1000007044.png', // Garota Acerto
+            'girl_e': 'http://googleusercontent.com/file_content/1000007045.png', // Garota Erro
         };
 
         // Elementos de Áudio
@@ -323,7 +328,7 @@
             instructions_text: "Clique na roleta para jogar! Respostas certas ganham moedas, erradas ganham bombas!"
         };
 
-        // --- Funções de Áudio e Efeitos Visuais (Adicionadas da resposta anterior) ---
+        // --- Funções de Áudio e Efeitos Visuais ---
 
         function playSound(audioElement, volume = 1.0) {
             audioElement.currentTime = 0;
@@ -337,7 +342,7 @@
             if (gameState.musicPlaying) {
                 button.textContent = '🎵 Música Ligada';
                 button.classList.add('playing');
-                playSound(bgmAudio, 0.4); // Volume um pouco mais baixo para BGM
+                playSound(bgmAudio, 0.4); 
                 createSoundWaves(button, '#667eea', 3);
             } else {
                 button.textContent = '🎶 Ligar Música';
@@ -496,9 +501,8 @@
             setTimeout(() => { starsContainer.innerHTML = ''; }, 4000);
         }
 
-        // --- Funções de Jogo (Modificadas para incluir áudio) ---
+        // --- Funções de Jogo ---
 
-        // Inicializar o tabuleiro (código mantido)
         function initializeBoard() {
             const board = document.getElementById('gameBoard');
             board.innerHTML = '';
@@ -569,6 +573,7 @@
                     message.className = 'character-message';
                     message.textContent = 'Boa sorte!';
                     characterCard.appendChild(avatar);
+                    message.textContent = 'Boa sorte!';
                     characterCard.appendChild(message);
                     square.appendChild(characterCard);
                 }
@@ -586,17 +591,14 @@
             }
         }
 
-        // Girar a roleta
         function spinRoulette() {
             if (gameState.gameEnded) return;
             const roulette = document.getElementById('roulette');
             const result = document.getElementById('rouletteResult');
-
-            playSound(diceRollAudio, 0.7); // Toca o som de dado
+            playSound(diceRollAudio, 0.7);
             createDiceVisualEffect();
             createSoundWaves(roulette, '#ffd700', 2);
             roulette.classList.add('spinning', 'roulette-glow');
-
             setTimeout(() => {
                 const roll = Math.floor(Math.random() * 6) + 1;
                 result.textContent = roll;
@@ -605,7 +607,6 @@
             }, 2000);
         }
 
-        // Mover o jogador
         function movePlayer(steps) {
             const player = gameState.players[gameState.currentPlayer];
             const oldPosition = player.position;
@@ -616,7 +617,7 @@
 
             if (playerElement) {
                 createMoveTrail(currentSquare, newSquare);
-                playSound(moveAudio, 0.5); // Toca o som de movimento
+                playSound(moveAudio, 0.5);
                 playerElement.remove();
             }
 
@@ -639,7 +640,7 @@
                     (document.getElementById('player1Name').textContent || 'Jogador 1') : 
                     (document.getElementById('player2Name').textContent || 'Jogador 2');
                 setTimeout(() => {
-                    playSound(winAudio); // Toca o som de vitória
+                    playSound(winAudio);
                     createVictoryVisualEffect();
                     showWinner(playerName);
                 }, 500);
@@ -648,12 +649,13 @@
 
             setTimeout(() => {
                 const square = document.getElementById(`square-${player.position}`);
-                if (square.classList.contains('vf')) {
-                    showCharacterCard(player.position);
-                    showVFQuestion();
-                } else if (square.classList.contains('normal')) {
+                // 50% chance de cair na pergunta informativa se for casa normal, senão vai para V/F Risco
+                if (square.classList.contains('normal')) {
                     showCharacterCard(player.position);
                     showInformativeQuestion();
+                } else if (square.classList.contains('vf')) {
+                    showCharacterCard(player.position);
+                    showVFQuestion();
                 } else {
                     if (!gameState.gameEnded) {
                         switchPlayer();
@@ -662,7 +664,6 @@
             }, 500);
         }
 
-        // Atualizar display dos jogadores (código mantido)
         function updatePlayerDisplay() {
             const player1 = gameState.players[1];
             const player2 = gameState.players[2];
@@ -686,13 +687,11 @@
             }
         }
 
-        // Alternar jogador (código mantido)
         function switchPlayer() {
             gameState.currentPlayer = gameState.currentPlayer === 1 ? 2 : 1;
             updatePlayerDisplay();
         }
 
-        // Mostrar vencedor (código mantido)
         function showWinner(playerName) {
             const winnerDiv = document.createElement('div');
             winnerDiv.className = 'winner-announcement';
@@ -721,28 +720,24 @@
             }, 2000);
         }
 
-        // Mostrar pergunta informativa (código mantido)
         function showInformativeQuestion() {
             const randomIndex = Math.floor(Math.random() * perguntasInformativas.length);
             currentQuestion = perguntasInformativas[randomIndex];
             currentQuestionType = 'informative';
-            document.getElementById('modalTitle').textContent = 'Verdadeiro ou Falso? (Informação)';
+            document.getElementById('modalTitle').textContent = 'Pergunta Informativa'; // Título genérico, pois as perguntas são de temas diversos
             document.getElementById('modalQuestion').textContent = currentQuestion.pergunta;
+            // Para as perguntas informativas, o jogador clica para ver a resposta/explicação
             document.getElementById('modalButtons').innerHTML = `
-                <div class="vf-buttons">
-                    <button class="btn btn-true" onclick="checkVFAnswer('V')">Verdadeiro</button>
-                    <button class="btn btn-false" onclick="checkVFAnswer('F')">Falso</button>
-                </div>
+                <button class="btn btn-primary" onclick="showAnswerAndContinue()">Ver Resposta</button>
             `;
             document.getElementById('questionModal').style.display = 'flex';
         }
 
-        // Mostrar pergunta V/F Risco (código mantido)
         function showVFQuestion() {
             const randomIndex = Math.floor(Math.random() * perguntasRisco.length);
             currentQuestion = perguntasRisco[randomIndex];
             currentQuestionType = 'vf';
-            document.getElementById('modalTitle').textContent = 'Verdadeiro ou Falso? (Risco/Mito)';
+            document.getElementById('modalTitle').textContent = 'Pergunta de Risco: Verdadeiro ou Falso?';
             document.getElementById('modalQuestion').textContent = currentQuestion.pergunta;
             document.getElementById('modalButtons').innerHTML = `
                 <div class="vf-buttons">
@@ -753,7 +748,6 @@
             document.getElementById('questionModal').style.display = 'flex';
         }
 
-        // Mostrar card do personagem (código mantido)
         function showCharacterCard(position) {
             const characterCard = document.getElementById(`character-${position}`);
             if (characterCard) {
@@ -761,7 +755,6 @@
             }
         }
 
-        // Atualizar reação do personagem (código mantido)
         function updateCharacterReaction(position, isCorrect) {
             const characterCard = document.getElementById(`character-${position}`);
             if (characterCard) {
@@ -796,91 +789,7 @@
             }
         }
 
-        // Criar efeito de explosão (código mantido)
-        function createExplosion() {
-            const overlay = document.getElementById('explosionOverlay');
-            const particlesContainer = document.getElementById('explosionParticles');
-            const gameContainer = document.querySelector('.game-container');
-            overlay.style.display = 'block';
-            gameContainer.classList.add('screen-shake');
-            particlesContainer.innerHTML = '';
-            for (let i = 0; i < 20; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                const angle = (i / 20) * 2 * Math.PI;
-                const distance = Math.random() * 200 + 50;
-                const x = Math.cos(angle) * distance;
-                const y = Math.sin(angle) * distance;
-                particle.style.setProperty('--end-x', `${x}px`);
-                particle.style.setProperty('--end-y', `${y}px`);
-                particle.style.animation = `particle-explosion 1.5s ease-out forwards`;
-                particle.style.animationDelay = `${Math.random() * 0.3}s`;
-                const colors = ['#ff4500', '#ff6b00', '#ff8c00', '#ffa500', '#ffb347'];
-                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-                particlesContainer.appendChild(particle);
-            }
-            setTimeout(() => {
-                overlay.style.display = 'none';
-                gameContainer.classList.remove('screen-shake');
-                particlesContainer.innerHTML = '';
-            }, 1500);
-        }
-
-        // Criar celebração de estrelas e cometas (código mantido)
-        function createStarsCelebration() {
-            const starsContainer = document.getElementById('starsCelebration');
-            starsContainer.innerHTML = '';
-            for (let i = 0; i < 10; i++) {
-                const star = document.createElement('div');
-                star.className = 'dancing-star';
-                const starTypes = ['⭐', '✨', '🌟', '💫', '⚡'];
-                star.textContent = starTypes[Math.floor(Math.random() * starTypes.length)];
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 0.8 + 's';
-                const scale = 0.8 + Math.random() * 0.4;
-                star.style.transform = `scale(${scale})`;
-                starsContainer.appendChild(star);
-                for (let j = 0; j < 2; j++) {
-                    const trail = document.createElement('div');
-                    trail.className = 'star-trail';
-                    trail.style.left = (parseFloat(star.style.left) + (Math.random() - 0.5) * 10) + '%';
-                    trail.style.top = (parseFloat(star.style.top) + (Math.random() - 0.5) * 10) + '%';
-                    trail.style.animationDelay = (Math.random() * 0.5 + 0.3) + 's';
-                    starsContainer.appendChild(trail);
-                }
-            }
-            for (let i = 0; i < 8; i++) {
-                const comet = document.createElement('div');
-                comet.className = 'flying-comet';
-                comet.textContent = '☄️';
-                let startX, startY, endX, endY;
-                const side = Math.floor(Math.random() * 4);
-                switch(side) {
-                    case 0: startX = Math.random() * 100; startY = -10; endX = Math.random() * 100; endY = 110; break;
-                    case 1: startX = 110; startY = Math.random() * 100; endX = -10; endY = Math.random() * 100; break;
-                    case 2: startX = Math.random() * 100; startY = 110; endX = Math.random() * 100; endY = -10; break;
-                    case 3: startX = -10; startY = Math.random() * 100; endX = 110; endY = Math.random() * 100; break;
-                }
-                comet.style.left = startX + '%';
-                comet.style.top = startY + '%';
-                comet.style.setProperty('--end-x', endX + '%');
-                comet.style.setProperty('--end-y', endY + '%');
-                comet.style.animationDelay = Math.random() * 1 + 's';
-                starsContainer.appendChild(comet);
-                const cometTrail = document.createElement('div');
-                cometTrail.className = 'comet-trail';
-                cometTrail.style.left = startX + '%';
-                cometTrail.style.top = startY + '%';
-                cometTrail.style.setProperty('--trail-end-x', endX + '%');
-                cometTrail.style.setProperty('--trail-end-y', endY + '%');
-                cometTrail.style.animationDelay = Math.random() * 1 + 's';
-                starsContainer.appendChild(cometTrail);
-            }
-            setTimeout(() => { starsContainer.innerHTML = ''; }, 4000);
-        }
-
-        // Verificar resposta V/F
+        // Função ajustada para Perguntas de Risco (V/F)
         function checkVFAnswer(answer) {
             const isCorrect = answer === currentQuestion.resposta_correta;
             const player = gameState.players[gameState.currentPlayer];
@@ -890,17 +799,20 @@
             if (isCorrect) {
                 player.coins++;
                 document.getElementById('answerTitle').textContent = '✅ Correto! +1 Moeda';
-                playSound(coinAudio, 0.8); // Toca o som de moeda
+                playSound(coinAudio, 0.8);
                 setTimeout(() => {
                     createCoinVisualEffect();
                     createStarsCelebration();
                 }, 500);
             } else {
                 player.bombs++;
-                document.getElementById('answerTitle').textContent = '❌ Incorreto! +1 Bomba';
+                document.getElementById('answerTitle').textContent = '❌ Erro Grave! +1 Bomba';
+                // Penalidade do jogo 1: Volta ao início.
+                player.position = 1; 
                 setTimeout(() => {
                     createErrorVisualEffect();
                     createExplosion();
+                    initializeBoard(); // Redesenha para mover o peão
                 }, 500);
             }
             
@@ -911,12 +823,28 @@
             document.getElementById('answerModal').style.display = 'flex';
         }
 
-        // Mostrar resposta (função mantida)
-        function showAnswer() {
-            closeModal();
+        // Nova função para mostrar resposta de perguntas informativas e continuar
+        function showAnswerAndContinue() {
+            document.getElementById('questionModal').style.display = 'none';
+            document.getElementById('answerTitle').textContent = 'Aprenda Mais!';
+            document.getElementById('answerText').textContent = currentQuestion.explicacao;
+            
+            // Reação neutra, pois é informativa, não acerto/erro
+            const player = gameState.players[gameState.currentPlayer];
+            const isGirl = player.position % 2 === 0;
+            const characterCard = document.getElementById(`character-${player.position}`);
+            const avatar = characterCard.querySelector('.character-avatar');
+            const message = characterCard.querySelector('.character-message');
+
+            characterCard.classList.remove('happy', 'sad');
+            message.classList.remove('happy', 'sad');
+            message.textContent = 'Conhecimento é poder! 💡';
+            avatar.style.backgroundImage = `url(${isGirl ? characterImages.girl_q : characterImages.boy_q})`;
+
+            document.getElementById('answerModal').style.display = 'flex';
         }
 
-        // Fechar modal (código mantido)
+
         function closeModal() {
             document.getElementById('questionModal').style.display = 'none';
             document.getElementById('answerModal').style.display = 'none';
@@ -925,7 +853,6 @@
             }
         }
 
-        // Mostrar modal customizado (código mantido)
         function showCustomModal(title, message, buttons) {
             document.getElementById('answerTitle').textContent = title;
             document.getElementById('answerText').textContent = message;
@@ -941,7 +868,7 @@
             document.getElementById('answerModal').style.display = 'flex';
         }
 
-        // Configuração do Element SDK (código mantido)
+        // Configuração do Element SDK
         async function render(config) {
             const gameTitle = config.game_title || defaultConfig.game_title;
             const player1Name = config.player1_name || defaultConfig.player1_name;
@@ -971,7 +898,7 @@
                 ["game_title", config.game_title || defaultConfig.game_title],
                 ["player1_name", config.player1_name || defaultConfig.player1_name],
                 ["player2_name", config.player2_name || defaultConfig.player2_name],
-                ["instructions_text", config.instructions_text || defaultConfig.instruction_text]
+                ["instructions_text", config.instructions_text || defaultConfig.instructions_text]
             ]);
         }
 
@@ -980,7 +907,6 @@
             initializeBoard();
             updatePlayerDisplay();
 
-            // Configurar áudios para pré-carregar
             bgmAudio.load();
             diceRollAudio.load();
             moveAudio.load();
