@@ -6,7 +6,6 @@
     <title>Tabuleiro Imersivo - Educação Sexual</title>
     <script src="/_sdk/element_sdk.js"></script>
     <style>
-        /* ... (Estilos CSS omitidos para brevidade) ... */
         body { box-sizing: border-box; margin: 0; padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: transparent; min-height: 100%; color: #333; overflow-x: auto; position: relative; }
         .bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
         .bubble { position: absolute; border-radius: 50%; opacity: 0.6; animation: float 6s ease-in-out infinite; }
@@ -130,17 +129,75 @@
         .btn-true:hover { background: #38a169; }
         .btn-false { background: #e53e3e; color: white; }
         .btn-false:hover { background: #c53030; }
-        @media (max-width: 768px) {
-            .game-container { padding: 20px; }
-            .game-title { font-size: 2rem; }
-            .board { grid-template-columns: repeat(6, 1fr); gap: 6px; padding: 15px; }
-            .square { font-size: 0.8rem; padding: 3px; }
-            .dice { width: 60px; height: 60px; font-size: 1.5rem; }
-        }
         /* Estilo para o Modal de Abertura do Vídeo */
         #videoModal .modal-content { max-width: 600px; padding: 0; overflow: hidden; }
         #videoModal video { width: 100%; height: auto; display: block; }
         #videoModal .modal-buttons { padding: 20px; background: #f7fafc; }
+        
+        /* Estilos da Capa do Vídeo */
+        .video-cover {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-thumbnail {
+            text-align: center;
+            color: white;
+            padding: 40px;
+        }
+
+        .play-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 3px solid white;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .play-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .play-icon {
+            font-size: 3rem;
+            margin-bottom: 5px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .play-text {
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .video-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .video-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3));
+        }
     </style>
     <style>@view-transition { navigation: auto; }</style>
     <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
@@ -164,12 +221,25 @@
     
     <div class="modal initial-show" id="videoModal">
         <div class="modal-content">
-            <video id="introVideo" width="100%" height="auto" autoplay loop>
+            <div class="video-cover" id="videoCover">
+                <div class="video-thumbnail">
+                    <div class="play-button" onclick="startVideo()">
+                        <div class="play-icon">▶️</div>
+                        <div class="play-text">Assistir Introdução</div>
+                    </div>
+                    <div class="video-title">Tabuleiro Educativo - Educação Sexual</div>
+                    <div class="video-subtitle">Aperte para iniciar e entender tudo!</div>
+                </div>
+            </div>
+            
+            <video id="introVideo" width="100%" height="auto" loop style="display: none;">
                 <source src="http://googleusercontent.com/file_content/1000007047.mp4" type="video/mp4">
                 Seu navegador não suporta a tag de vídeo.
             </video>
-            <div class="modal-buttons">
+            
+            <div class="modal-buttons" id="videoButtons" style="display: none;">
                 <button class="btn btn-primary" onclick="closeVideoModal()">Iniciar Jogo</button>
+                <button class="btn btn-secondary" onclick="skipVideo()">Pular Vídeo</button>
             </div>
         </div>
     </div>
@@ -355,21 +425,41 @@
             }
         }
 
-        function closeVideoModal() {
-            const videoElement = document.getElementById('introVideo');
+        function startVideo() {
+            const videoCover = document.getElementById('videoCover');
+            const video = document.getElementById('introVideo');
+            const videoButtons = document.getElementById('videoButtons');
             
-            // 1. Inicia o vídeo (agora sem 'muted' na tag, isso deve funcionar)
-            videoElement.play().catch(e => console.log("Erro ao iniciar vídeo:", e));
+            // 1. Esconder capa e mostrar vídeo
+            videoCover.style.display = 'none';
+            video.style.display = 'block';
+            videoButtons.style.display = 'flex';
             
-            // 2. Oculta o modal e exibe o jogo
-            document.getElementById('videoModal').classList.remove('initial-show');
-            document.getElementById('videoModal').style.display = 'none';
-            document.getElementById('gameContainer').style.display = 'block';
+            // 2. Reproduzir vídeo (agora permitido pelo clique)
+            video.play();
             
-            // (O vídeo continuará em loop em segundo plano, a menos que seja pausado aqui)
-            // videoElement.pause(); 
-            // videoElement.currentTime = 0;
+            // 3. Opcional: Pausar e mostrar "Iniciar Jogo" ao final do vídeo
+            video.addEventListener('ended', closeVideoModal);
         }
+
+        function skipVideo() {
+            // Se pular, o vídeo é pausado e o jogo inicia
+            closeVideoModal();
+        }
+
+        function closeVideoModal() {
+            const videoModal = document.getElementById('videoModal');
+            const video = document.getElementById('introVideo');
+            
+            // 1. Pausar o vídeo (para ele não continuar tocando em segundo plano)
+            video.pause();
+            
+            // 2. Ocultar o modal e exibir o contêiner principal do jogo
+            videoModal.classList.remove('initial-show');
+            videoModal.style.display = 'none';
+            document.getElementById('gameContainer').style.display = 'block';
+        }
+
 
         function createSoundWaves(element, color, count = 1) {
             const container = document.getElementById('soundWaves');
